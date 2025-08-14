@@ -1,0 +1,9 @@
+# Ignore node_modules for both frontend and backend
+projectfront/node_modules/
+projectbackend/node_modules/
+
+# Ignore .env file (backend secret)
+projectbackend/.env
+
+# Ignore uploaded images if any
+projectbackend/uploads/
