@@ -4,6 +4,12 @@ projectbackend/node_modules/
 
 # Ignore .env file (backend secret)
 projectbackend/.env
+projectfront/.env
 
 # Ignore uploaded images if any
 projectbackend/uploads/
+# Ignore environment files
+.env
+*.env
+
+
