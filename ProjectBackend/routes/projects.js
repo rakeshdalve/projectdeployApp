@@ -10,7 +10,8 @@ const upload = require('../middleware/upload'); // multer middleware
 router.post('/', auth, upload.single('image'), async (req, res) => {
   try {
     const { name, description, link } = req.body;
-    const imageUrl = req.file ? `http://localhost:5000/uploads/${req.file.filename}` : null;
+   const imageUrl = req.file? `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`: null;
+
 
     const newProject = new Project({
       name,
@@ -52,7 +53,7 @@ router.get('/me', auth, async (req, res) => {
 router.put('/:id', auth, upload.single('image'), async (req, res) => {
   try {
     const { name, description, link } = req.body;
-    const imageUrl = req.file ? `http://localhost:5000/uploads/${req.file.filename}` : undefined;
+    const imageUrl = req.file ?`${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`: undefined;
 
     const updateData = { name, description, link };
     if (imageUrl) {
