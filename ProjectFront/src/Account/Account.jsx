@@ -31,7 +31,7 @@ export default function Account() {
         }
 
         // Fetch projects
-        fetch('https://project-backend-lmfh.onrender.com/api/projects/me', {
+        fetch(`${import.meta.env.VITE_API_URL}/api/projects/me`, {
             headers: { Authorization: `Bearer ${token}` }
         })
             .then(res => res.json())
@@ -47,7 +47,7 @@ export default function Account() {
 
     const handleDelete = (id) => {
         const token = localStorage.getItem('token');
-        fetch(`https://project-backend-lmfh.onrender.com/api/projects/${id}`, {
+        fetch(`${import.meta.env.VITE_API_URL}/api/projects/${id}`, {
             method: 'DELETE',
             headers: { Authorization: `Bearer ${token}` }
         })
@@ -70,7 +70,7 @@ export default function Account() {
             return;
         }
 
-        const url = editingProject ? `https://project-backend-lmfh.onrender.com/api/projects/${editingProject._id}` : 'https://project-backend-lmfh.onrender.com/api/projects';
+        const url = editingProject ? `${import.meta.env.VITE_API_URL}/api/projects/${editingProject._id}` : `${import.meta.env.VITE_API_URL}/api/projects`;
 
         const method = editingProject ? 'PUT' : 'POST';
 
