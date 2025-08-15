@@ -1,17 +1,21 @@
 // // routes/projects.js
 
 // const express = require('express');
-// const router = express.Router();      
+// const router = express.Router();
 // const Project = require('../models/project');
 // const auth = require('../middleware/auth');
-// const upload = require('../middleware/upload'); // multer middleware
+// const upload = require('../middleware/upload');
+// require('dotenv').config(); // <-- To access BASE_URL
 
 // // ➕ Add a new project (with image upload)
 // router.post('/', auth, upload.single('image'), async (req, res) => {
 //   try {
 //     const { name, description, link } = req.body;
-//    const imageUrl = req.file? `https://${req.get('host')}/uploads/${req.file.filename}`: null;
 
+//     // ✅ Image URL using ENV variable
+//     const imageUrl = req.file
+//       ? `${process.env.BASE_URL}/uploads/${req.file.filename}`
+//       : null;
 
 //     const newProject = new Project({
 //       name,
@@ -29,7 +33,7 @@
 //   }
 // });
 
-// // 📃 Get all projects (for dashboard)
+// // 📃 Get all projects
 // router.get('/', async (req, res) => {
 //   try {
 //     const projects = await Project.find().populate('owner', 'name email');
@@ -53,12 +57,13 @@
 // router.put('/:id', auth, upload.single('image'), async (req, res) => {
 //   try {
 //     const { name, description, link } = req.body;
-//     const imageUrl = req.file ?`${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`: undefined;
+
+//     const imageUrl = req.file
+//       ? `${process.env.BASE_URL}/uploads/${req.file.filename}`
+//       : undefined;
 
 //     const updateData = { name, description, link };
-//     if (imageUrl) {
-//       updateData.imageUrl = imageUrl;
-//     }
+//     if (imageUrl) updateData.imageUrl = imageUrl;
 
 //     const updated = await Project.findOneAndUpdate(
 //       { _id: req.params.id, owner: req.user },
@@ -87,24 +92,18 @@
 
 // module.exports = router;
 
-// routes/projects.js
-
 const express = require('express');
 const router = express.Router();
 const Project = require('../models/project');
 const auth = require('../middleware/auth');
 const upload = require('../middleware/upload');
-require('dotenv').config(); // <-- To access BASE_URL
+require('dotenv').config();
 
-// ➕ Add a new project (with image upload)
 router.post('/', auth, upload.single('image'), async (req, res) => {
   try {
     const { name, description, link } = req.body;
-
-    // ✅ Image URL using ENV variable
-    const imageUrl = req.file
-      ? `${process.env.BASE_URL}/uploads/${req.file.filename}`
-      : null;
+    const baseUrl = process.env.BASE_URL; // Must be HTTPS
+    const imageUrl = req.file ? `${baseUrl}/uploads/${req.file.filename}` : null;
 
     const newProject = new Project({
       name,
@@ -122,7 +121,6 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
   }
 });
 
-// 📃 Get all projects
 router.get('/', async (req, res) => {
   try {
     const projects = await Project.find().populate('owner', 'name email');
@@ -132,7 +130,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// 👤 Get current user's projects
 router.get('/me', auth, async (req, res) => {
   try {
     const projects = await Project.find({ owner: req.user });
@@ -142,14 +139,11 @@ router.get('/me', auth, async (req, res) => {
   }
 });
 
-// ✏️ Update a project (with optional image upload)
 router.put('/:id', auth, upload.single('image'), async (req, res) => {
   try {
     const { name, description, link } = req.body;
-
-    const imageUrl = req.file
-      ? `${process.env.BASE_URL}/uploads/${req.file.filename}`
-      : undefined;
+    const baseUrl = process.env.BASE_URL;
+    const imageUrl = req.file ? `${baseUrl}/uploads/${req.file.filename}` : undefined;
 
     const updateData = { name, description, link };
     if (imageUrl) updateData.imageUrl = imageUrl;
@@ -168,7 +162,6 @@ router.put('/:id', auth, upload.single('image'), async (req, res) => {
   }
 });
 
-// ❌ Delete a project
 router.delete('/:id', auth, async (req, res) => {
   try {
     const deleted = await Project.findOneAndDelete({ _id: req.params.id, owner: req.user });
@@ -180,5 +173,4 @@ router.delete('/:id', auth, async (req, res) => {
 });
 
 module.exports = router;
-
 
