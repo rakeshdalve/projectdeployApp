@@ -4,31 +4,16 @@ const mongoose = require('mongoose');
 const path = require('path');
 require('dotenv').config();
 
+
 const authRoutes = require('./routes/auth');
 const projectRoutes = require('./routes/projects');
 
-// ✅ Allowed frontend origins
-const allowedOrigins = [process.env.FRONTEND_URL];
-
 const app = express();    
 
-// ✅ CORS setup with preflight handling
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
-};
-
-// Middlewares   
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));  // ✅ Preflight support for all routes
-
+// Middlewares
+app.use(cors());
 app.use(express.json());  // JSON body parse करने के लिए
+
 
 // Static folder for uploaded images
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
