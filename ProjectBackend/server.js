@@ -1,5 +1,4 @@
 const express = require('express');
-app.set('trust proxy', true);
 const cors = require('cors');
 const mongoose = require('mongoose');
 const path = require('path');
@@ -9,7 +8,8 @@ require('dotenv').config();
 const authRoutes = require('./routes/auth');
 const projectRoutes = require('./routes/projects');
 
-const app = express();    
+const app = express(); 
+app.set('trust proxy', true);   
 
 // Middlewares
 app.use(cors());
