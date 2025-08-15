@@ -90,18 +90,17 @@
 // routes/projects.js
 
 const express = require('express');
-const router = express.Router();      
+const router = express.Router();
 const Project = require('../models/project');
 const auth = require('../middleware/auth');
 const upload = require('../middleware/upload'); // multer middleware
+require('dotenv').config(); // ✅ .env file se BASE_URL load karne ke लिए
 
 // ➕ Add a new project (with image upload)
 router.post('/', auth, upload.single('image'), async (req, res) => {
   try {
     const { name, description, link } = req.body;
-
-    // 🛡️ Force HTTPS to avoid mixed content
-    const imageUrl = req.file ? `https://${req.get('host')}/uploads/${req.file.filename}` : null;
+    const imageUrl = req.file ? `${process.env.BASE_URL}/uploads/${req.file.filename}` : null; // ✅ BASE_URL से dynamic URL
 
     const newProject = new Project({
       name,
@@ -143,9 +142,7 @@ router.get('/me', auth, async (req, res) => {
 router.put('/:id', auth, upload.single('image'), async (req, res) => {
   try {
     const { name, description, link } = req.body;
-
-    // 🛡️ Force HTTPS to avoid mixed content
-    const imageUrl = req.file ? `https://${req.get('host')}/uploads/${req.file.filename}` : undefined;
+    const imageUrl = req.file ? `${process.env.BASE_URL}/uploads/${req.file.filename}` : undefined; // ✅ BASE_URL से dynamic URL
 
     const updateData = { name, description, link };
     if (imageUrl) {
@@ -178,3 +175,4 @@ router.delete('/:id', auth, async (req, res) => {
 });
 
 module.exports = router;
+
