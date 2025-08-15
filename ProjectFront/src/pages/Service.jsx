@@ -80,8 +80,6 @@ export default function Service() {
                   <p className="text-gray-700 mb-2">Lorem, ipsum dolor sit amet consectetur adipisicing elit. odio sequi dolor quas qui ullam obcaecati itaque, ipsum, consequuntur vero velit porro sint vel recusandae, quasi consectetur culpa eveniet. Esse.</p>
                 </div>
               </div>
-
-            
           </div>
         </div>
       </div>
