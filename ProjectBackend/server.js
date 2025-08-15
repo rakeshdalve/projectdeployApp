@@ -7,11 +7,15 @@ require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
 const projectRoutes = require('./routes/projects');
+const allowedOrigins = [process.env.FRONTEND_URL];
 
 const app = express();    
 
-// Middlewares
-app.use(cors());
+// Middlewares   
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true
+}));
 app.use(express.json());  // JSON body parse करने के लिए
 
 

@@ -64,7 +64,7 @@ export default function Account() {
     const handleAddOrUpdateProject = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem('token');
-
+ 
         if (!formData.name || !formData.description || !formData.link) {
             alert("Please fill all fields.");
             return;
