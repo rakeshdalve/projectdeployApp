@@ -93,14 +93,18 @@ const express = require('express');
 const router = express.Router();
 const Project = require('../models/project');
 const auth = require('../middleware/auth');
-const upload = require('../middleware/upload'); // multer middleware
-require('dotenv').config(); // ✅ .env file se BASE_URL load karne ke लिए
+const upload = require('../middleware/upload');
+require('dotenv').config(); // <-- To access BASE_URL
 
 // ➕ Add a new project (with image upload)
 router.post('/', auth, upload.single('image'), async (req, res) => {
   try {
     const { name, description, link } = req.body;
-    const imageUrl = req.file ? `${process.env.BASE_URL}/uploads/${req.file.filename}` : null; // ✅ BASE_URL से dynamic URL
+
+    // ✅ Image URL using ENV variable
+    const imageUrl = req.file
+      ? `${process.env.BASE_URL}/uploads/${req.file.filename}`
+      : null;
 
     const newProject = new Project({
       name,
@@ -118,7 +122,7 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
   }
 });
 
-// 📃 Get all projects (for dashboard)
+// 📃 Get all projects
 router.get('/', async (req, res) => {
   try {
     const projects = await Project.find().populate('owner', 'name email');
@@ -142,12 +146,13 @@ router.get('/me', auth, async (req, res) => {
 router.put('/:id', auth, upload.single('image'), async (req, res) => {
   try {
     const { name, description, link } = req.body;
-    const imageUrl = req.file ? `${process.env.BASE_URL}/uploads/${req.file.filename}` : undefined; // ✅ BASE_URL से dynamic URL
+
+    const imageUrl = req.file
+      ? `${process.env.BASE_URL}/uploads/${req.file.filename}`
+      : undefined;
 
     const updateData = { name, description, link };
-    if (imageUrl) {
-      updateData.imageUrl = imageUrl;
-    }
+    if (imageUrl) updateData.imageUrl = imageUrl;
 
     const updated = await Project.findOneAndUpdate(
       { _id: req.params.id, owner: req.user },
@@ -175,4 +180,5 @@ router.delete('/:id', auth, async (req, res) => {
 });
 
 module.exports = router;
+
 
