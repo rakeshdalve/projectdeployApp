@@ -4,21 +4,20 @@ export default function Home() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // 🔀 Shuffle function
   const shuffleArray = (array) => {
     return array
       .map(value => ({ value, sort: Math.random() }))
       .sort((a, b) => a.sort - b.sort)
       .map(({ value }) => value);
   };
- 
+
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/projects`, {
       headers: { 'Content-Type': 'application/json' }
     })
       .then(res => res.json())
       .then(data => {
-        const shuffled = shuffleArray(data); // 👈 shuffle here
+        const shuffled = shuffleArray(data);
         setProjects(shuffled);
         setLoading(false);
       })
@@ -29,6 +28,8 @@ export default function Home() {
   }, []);
 
   if (loading) return <p>Loading projects...</p>;
+
+  if (projects.length === 0) return <p className="text-center mt-4 text-gray-600">No projects found.</p>;
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
@@ -59,4 +60,3 @@ export default function Home() {
     </div>
   );
 }
-
