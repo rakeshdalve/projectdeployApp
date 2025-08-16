@@ -103,7 +103,10 @@ require('dotenv').config();
 // // ➕ Add a new project (with image upload)
 router.post('/', auth, upload.single('image'), async (req, res) => {
   try {
-    console.log('REQ.FILE:', req.file);
+    console.log("➡️ Incoming project POST request");
+    console.log("REQ.FILE:", req.file); // Check if file uploaded
+    console.log("REQ.BODY:", req.body); // See all fields
+
     const { name, description, link } = req.body;
 
     //     // ✅ Image URL using ENV variable
@@ -122,10 +125,11 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
     });
 
     const saved = await newProject.save();
+    console.log("✅ Project saved:", saved);
     res.status(201).json(saved);
   } catch (err) {
-    console.error('Error adding project:', err);
-    res.status(500).json({ message: 'Failed to add project' });
+    console.error("🔥 Project upload error:", err);
+    res.status(500).json({ message: 'Failed to add project', error: err.message });
   }
 });
 
