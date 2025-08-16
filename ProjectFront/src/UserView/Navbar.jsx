@@ -60,7 +60,7 @@ export default function Navbar() {
                 {/* Right: Profile Icon (always visible) */}
                 <div className="flex-shrink-0">
                     <Link to="/Dashboard/Account">
-                        <div className="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 hover:bg-blue-200 transition duration-200">
+                         <div className="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 hover:bg-blue-200 transition duration-200">
                             👤
                         </div>
                     </Link>
