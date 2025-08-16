@@ -103,6 +103,7 @@ require('dotenv').config();
 // // ➕ Add a new project (with image upload)
 router.post('/', auth, upload.single('image'), async (req, res) => {
   try {
+    console.log('REQ.FILE:', req.file);
     const { name, description, link } = req.body;
 
     //     // ✅ Image URL using ENV variable
