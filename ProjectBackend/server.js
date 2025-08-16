@@ -22,7 +22,7 @@ app.use(cors({
 app.use(express.json()); // JSON body parse करने के लिए
 
 // // Static folder for uploaded images
-// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // // MongoDB connect करो (apni config/db.js से भी कर सकते हो)
 mongoose.connect(process.env.MONGO_URI, {
