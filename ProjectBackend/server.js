@@ -48,7 +48,11 @@ const app = express();
 // Trust proxy for correct protocol detection (important on Render)
 app.set('trust proxy', true);
 
-app.use(cors());
+app.use(cors({
+  origin: 'https://projectdeployapp.onrender.com',
+  credentials: true
+}));
+
 app.use(express.json());
 
 // Serve static uploaded files
@@ -56,19 +60,13 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true    
 }).then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 
-// If using monorepo and serving frontend from backend
-// Comment out if frontend is separate deployment
-// app.use(express.static(path.join(__dirname, 'client', 'dist')));
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
-// });
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
