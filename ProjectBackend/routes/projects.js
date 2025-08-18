@@ -117,7 +117,7 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
     const saved = await newProject.save();
     res.status(201).json(saved);
   } catch (err) {
-    console.error('Error adding project:', err);
+    console.error('Error adding project:', err.message, err.stack);
     res.status(500).json({ message: 'Failed to add project' });
   }
 });

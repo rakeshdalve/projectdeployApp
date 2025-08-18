@@ -16,9 +16,9 @@ const projectSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  imageUrl: {
-    type: String
-  },
+  imageUrl: { 
+    type: String,
+    required: false },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',   // Relates to User collection
