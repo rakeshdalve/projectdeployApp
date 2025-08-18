@@ -103,7 +103,10 @@ require('dotenv').config();
 router.post('/', auth, upload.single('image'), async (req, res) => {
   try {
     const { name, description, link } = req.body;
-    console.log("yha error ayega");
+    // ✅ Add these logs right after extracting req.body
+    console.log("req.body:", req.body);
+    console.log("req.file:", req.file);
+    console.log("req.user:", req.user);
 
     const imageUrl = req.file ? req.file.path : null;
 
