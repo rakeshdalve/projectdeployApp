@@ -27,7 +27,7 @@ function App() {
           <Route path="Service" element={<Service />} />
           <Route path="About" element={<About />} />
           <Route path="Contact" element={<Contact />} />
-          {/* <Route path='Account' element={<Account/>}/> */}
+  
           <Route path='Account' element={<PrivateRoute>
             <Account/>
           </PrivateRoute>}/>
