@@ -12,6 +12,7 @@ export default function Login() {
 
     const onSubmit = async (data) => {
         try {
+            console.log("API URL:", import.meta.env.VITE_API_URL);
             const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

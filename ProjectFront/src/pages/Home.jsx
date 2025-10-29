@@ -60,7 +60,10 @@ export default function Home() {
               >
                 Visit Project
               </a>
-              <p className="text-sm text-gray-500 mt-2">Owner: {proj.owner.name}</p>
+              <p className="text-sm text-gray-500 mt-2">
+                Owner: {proj.owner?.name || "Unknown"}
+              </p>
+
             </div>
           </div>
         );
